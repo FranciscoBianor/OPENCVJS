@@ -1,0 +1,64 @@
+
+
+<html>
+
+<!--neate exemplo vamos carregar umja imagem atraves de cv.mat e mostrar ela atraves do cv.imshow-->
+<head>
+<meta charset="utf-8">
+<title>Hello OpenCV.js</title>
+</head>
+<body>
+<h2>Hello OpenCV.js</h2>
+<p id="status">OpenCV.js is loading...</p>
+<div>
+  <div class="inputoutput">
+    <img id="imageSrc" alt="No Image" />
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput" ></canvas>
+    <div class="caption">canvasOutput</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasInput" ></canvas>
+    <div class="caption"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+let canvas = document.getElementById('canvasInput');
+let ctx = canvas.getContext('2d');
+let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+//let src = cv.matFromImageData(imgData);
+let dst = new cv.Mat();
+src.convertTo(dst, cv.CV_8U, scale, shift);
+cv.cvtColor(dst, dst, cv.COLOR_2RGBA);
+let canvas2 = document.getElementById('canvasOutput');
+let ctx2 = canvas.getContext('2d');
+ctx2.clearRect(0, 0, canvas.width, canvas.height);
+canvas.width = imgData.width;
+canvas.height = imgData.height;
+ctx2.putImageData(imgData, 0, 0);
+
+
+let src3 = cv.imread('canvasInput');
+let dst3 = new cv.Mat();
+cv.cvtColor(src3, dst3, cv.COLOR_RGBA2GRAY);
+cv.imshow('canvasOutput', dst);
+src.delete();
+dst.delete();
+
+
+function onOpenCvReady() {
+  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+}
+</script>
+<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript">
+  
+  
+</script>
+
+
+</body>
+</html>
